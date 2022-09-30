@@ -1100,7 +1100,7 @@ public class RoomManager implements Listener {
                 if(entityChest instanceof InventoryHolder && entityChest instanceof BlockEntityNameable) {
                     LinkedHashMap<Integer,Item> integers = room.getRandomItem(((InventoryHolder) entityChest).getInventory().getSize(),block);
                     event.setDrops(integers.values().toArray(new Item[0]));
-                    info.addSound(Sound.MOB_ZOMBIE_WOODBREAK);
+                    //info.addSound(Sound.MOB_ZOMBIE_WOODBREAK);
                 }
                 if(block.getId() == 15){
                     event.setDrops(new Item[]{Item.get(265)});

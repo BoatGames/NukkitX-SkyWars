@@ -590,21 +590,23 @@ public class PlayerInfo {
             levelName = " -- ";
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-        lore.add("&7"+format.format(new Date()));
-        lore.add("游戏模式: &a"+levelName);
+        //lore.add("&7"+format.format(new Date()));
+        //lore.add("游戏模式: &a"+levelName);
 
-        lore.add(" ");
+        //lore.add(" ");
         if(isWait){
-            lore.add("玩家数: &a"+gameRoom.getPlayerInfos().size()+" &r/&a "+gameRoom.getRoomConfig().getMaxPlayerSize());
-            lore.add("等待中....");
-            lore.add("   ");
+            //lore.add("玩家数: &a"+gameRoom.getPlayerInfos().size()+" &r/&a "+gameRoom.getRoomConfig().getMaxPlayerSize());
+            //玩家数
+            lore.add("\uE105 "+gameRoom.getPlayerInfos().size()+"&7/"+gameRoom.getRoomConfig().getMaxPlayerSize());
+            //lore.add("等待中....");
+            //lore.add("   ");
 
         }else{
 
-            lore.add("游戏结束: &a"+formatTime1(getGameRoom().loadTime));
+            /*lore.add("游戏结束: &a"+formatTime1(getGameRoom().loadTime));
             lore.add("    ");
             lore.add("箱子刷新: &a"+formatTime1(gameRoom.roomConfig.resetTime - gameRoom.worldInfo.resetTime));
-            lore.add("     ");
+            lore.add("     ");*/
             if(gameRoom.roomConfig.teamConfigs.size() > 1){
                 for(TeamInfo teamInfo: gameRoom.getTeamInfos()){
                     String me = "";
@@ -615,23 +617,29 @@ public class PlayerInfo {
                 }
             }else{
                 TeamInfo teamInfo = gameRoom.getTeamInfos().get(0);
-                lore.add("    ");
+                //lore.add("    ");
                 lore.add(" 存活人数: &a "+teamInfo.getLivePlayer().size() +" &7/&a "+teamInfo.getTeamPlayers().size());
             }
 
-            lore.add("       ");
+            /*lore.add("       ");
             lore.add("&b击杀数: &a"+killCount);
             lore.add("&e助攻数: &a"+assists);
 
-            lore.add("        ");
+            lore.add("        ");*/
+            //箱子刷子
+            lore.add("\uE117 "+formatTime1(gameRoom.roomConfig.resetTime - gameRoom.worldInfo.resetTime));
+            //击杀
+            lore.add("\uE114 "+killCount);
+            //00：00制游戏时间
+            lore.add("\uE112 "+formatTime1(getGameRoom().loadTime));
         }
         Object obj = TotalManager.getConfig().get("game-logo");
         if(obj instanceof List){
             for(Object s : (List<?>)obj){
-                lore.add(s.toString());
+                //lore.add(s.toString());
             }
         }else{
-            lore.add(TotalManager.getConfig().getString("game-logo","&l&cT&6o&eC&ar&ba&9f&dt"));
+            //lore.add(TotalManager.getConfig().getString("game-logo","&l&cT&6o&eC&ar&ba&9f&dt"));
         }
         return lore;
     }
