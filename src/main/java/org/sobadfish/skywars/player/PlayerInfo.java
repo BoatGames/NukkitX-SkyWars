@@ -126,6 +126,7 @@ public class PlayerInfo {
         return player.getName();
     }
 
+
     public Position getPosition(){
         return player.getPosition();
     }
@@ -584,6 +585,7 @@ public class PlayerInfo {
     }
 
     private ArrayList<String> getLore(boolean isWait){
+
         ArrayList<String> lore = new ArrayList<>();
         String levelName = TotalManager.getMenuRoomManager().getNameByRoom(gameRoom.getRoomConfig());
         if(levelName == null){
@@ -597,28 +599,50 @@ public class PlayerInfo {
         if(isWait){
             //lore.add("玩家数: &a"+gameRoom.getPlayerInfos().size()+" &r/&a "+gameRoom.getRoomConfig().getMaxPlayerSize());
             //玩家数
-            lore.add("\uE105 "+gameRoom.getPlayerInfos().size()+"&7/"+gameRoom.getRoomConfig().getMaxPlayerSize());
+            lore.add("\uE175 "+gameRoom.getPlayerInfos().size()+"&7/"+gameRoom.getRoomConfig().getMaxPlayerSize());
             //lore.add("等待中....");
             //lore.add("   ");
 
-        }else{
+        }else {
 
             /*lore.add("游戏结束: &a"+formatTime1(getGameRoom().loadTime));
             lore.add("    ");
             lore.add("箱子刷新: &a"+formatTime1(gameRoom.roomConfig.resetTime - gameRoom.worldInfo.resetTime));
             lore.add("     ");*/
-            if(gameRoom.roomConfig.teamConfigs.size() > 1){
-                for(TeamInfo teamInfo: gameRoom.getTeamInfos()){
+            if(loadWaitTime < 1){
+            if (gameRoom.roomConfig.teamConfigs.size() > 1) {
+                /*for(TeamInfo teamInfo: gameRoom.getTeamInfos()){
                     String me = "";
                     if(getTeamInfo() != null && getTeamInfo().equals(teamInfo)){
                         me = "&7(我)";
                     }
                     lore.add("◎ "+ teamInfo +": &r  &c"+teamInfo.getLivePlayer().size()+" "+me);
+                }*/
+                StringBuilder s = new StringBuilder();
+
+                for(TeamInfo teamInfo: gameRoom.getTeamInfos()){
+                    if(!teamInfo.isClose()){
+                        //s.append(teamInfo.getTeamConfig().getNameColor());
+                        s.append(teamInfo.getTeamConfig().getNameUnicode());
+                    }
                 }
-            }else{
+                if(this.teamInfo != null){
+                    //lore.add(this.teamInfo+"队".toString());
+                    lore.add(this.teamInfo.getTeamConfig().getNameUnicode() + " "
+                            + teamInfo.getTeamConfig().getNameColor()
+                            + teamInfo);
+                }else{
+                    lore.add("\uE18E 吃瓜小分队");
+                }
+
+
+                //lore.add(this.teamInfo+"队".toString());
+                lore.add(s.toString());
+
+            } else {
                 TeamInfo teamInfo = gameRoom.getTeamInfos().get(0);
                 //lore.add("    ");
-                lore.add(" 存活人数: &a "+teamInfo.getLivePlayer().size() +" &7/&a "+teamInfo.getTeamPlayers().size());
+                lore.add(" 存活人数: &a " + teamInfo.getLivePlayer().size() + " &7/&a " + teamInfo.getTeamPlayers().size());
             }
 
             /*lore.add("       ");
@@ -626,12 +650,13 @@ public class PlayerInfo {
             lore.add("&e助攻数: &a"+assists);
 
             lore.add("        ");*/
-            //箱子刷子
-            lore.add("\uE117 "+formatTime1(gameRoom.roomConfig.resetTime - gameRoom.worldInfo.resetTime));
+            //箱子刷新
+            lore.add("\uE187 " + formatTime1(gameRoom.roomConfig.resetTime - gameRoom.worldInfo.resetTime));
             //击杀
-            lore.add("\uE114 "+killCount);
+            lore.add("\uE184 " + killCount);
             //00：00制游戏时间
-            lore.add("\uE112 "+formatTime1(getGameRoom().loadTime));
+            lore.add("\uE182 " + formatTime1(getGameRoom().loadTime));
+            }
         }
         Object obj = TotalManager.getConfig().get("game-logo");
         if(obj instanceof List){
@@ -642,6 +667,7 @@ public class PlayerInfo {
             //lore.add(TotalManager.getConfig().getString("game-logo","&l&cT&6o&eC&ar&ba&9f&dt"));
         }
         return lore;
+
     }
 
 
@@ -655,12 +681,27 @@ public class PlayerInfo {
         //TODO 玩家进入房间后每秒就会调用这个方法
         if(loadWaitTime > 0){
             loadWaitTime--;
-            sendTitle("",loadWaitTime);
-            sendSubTitle("&e"+loadWaitTime+" &6秒后开始");
+            switch (loadWaitTime){
+                case 10: sendTitle("");sendActionBar("&e游戏开始 » ▌▌▌▌▌▌▌▌▌▌ &r"+loadWaitTime);break;
+                case 9: sendActionBar("&e游戏开始 ≫ ▌▌▌▌▌▌▌▌▌&7▌ &r"+loadWaitTime);break;
+                case 8: sendActionBar("&e游戏开始 ≫ ▌▌▌▌▌▌▌▌&7▌▌ &r"+loadWaitTime);break;
+                case 7: sendActionBar("&e游戏开始 ≫ ▌▌▌▌▌▌▌&7▌▌▌ &r"+loadWaitTime);break;
+                case 6: sendActionBar("&e游戏开始 ≫ ▌▌▌▌▌▌&7▌▌▌▌ &r"+loadWaitTime);break;
+                case 5: sendActionBar("&e游戏开始 ≫ ▌▌▌▌▌&7▌▌▌▌▌ &r"+loadWaitTime);break;
+                case 4: sendActionBar("&e游戏开始 ≫ ▌▌▌▌&7▌▌▌▌▌▌ &r"+loadWaitTime);break;
+                case 3: sendActionBar("&e游戏开始 ≫ &c▌▌▌&7▌▌▌▌▌▌▌ &r"+loadWaitTime);addSound(Sound.RANDOM_TOAST);break;
+                case 2: sendActionBar("&e游戏开始 ≫ &c▌▌&7▌▌▌▌▌▌▌▌ &r"+loadWaitTime);addSound(Sound.RANDOM_TOAST);break;
+                case 1: sendActionBar("&e游戏开始 ≫ &c▌&7▌▌▌▌▌▌▌▌▌ &r"+loadWaitTime);addSound(Sound.RANDOM_TOAST);break;
+                default:
+                    sendTitle("");break;
+
+            }
+            /*sendTitle("",loadWaitTime);
+            sendSubTitle("&e"+loadWaitTime+" &6秒后开始");*/
             if(loadWaitTime <= 0){
                 if(player.isImmobile()){
                     player.setImmobile(false);
-                    sendTitle("&a开始!");
+                    //sendTitle("&a》 游戏开始 《");
                     player.getInventory().addItem(new ItemSwordStone());
                     player.getInventory().addItem(new ItemPickaxeIron());
                     player.getInventory().addItem(new ItemAxeStone());
@@ -733,7 +774,9 @@ public class PlayerInfo {
         //TODO 玩家更新线程
         if(playerType == PlayerType.START){
             //TODO 游戏开始后 可以弄一些buff
-            player.setNameTag(TextFormat.colorize('&',teamInfo.getTeamConfig().getNameColor()+player.getName()+" \n&c❤&7"+String.format("%.1f",player.getHealth())));
+            player.setNameTag(TextFormat.colorize('&',teamInfo.getTeamConfig().getNameColor()+player.getName()
+                    //+" \n&c❤&7"+String.format("%.1f",player.getHealth())
+            ));
 
 
         }else if(playerType == PlayerType.WAIT){

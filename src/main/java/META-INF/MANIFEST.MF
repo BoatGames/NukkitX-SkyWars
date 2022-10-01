@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: C:\Users\29347\Desktop\NukkitX-SkyWars-master\src\main\java\
+ org\sobadfish\skywars\SkyWarsMain.java
+

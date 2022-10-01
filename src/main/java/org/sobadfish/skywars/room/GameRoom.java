@@ -220,7 +220,8 @@ public class GameRoom {
             sendMessage(info+"&e加入了游戏 &7("+(playerInfos.size()+1)+"/"+getRoomConfig().getMaxPlayerSize()+")");
             info.init();
             if(roomConfig.teamConfigs.size() > 1) {
-                info.getPlayer().getInventory().setItem(TeamChoseItem.getIndex(), TeamChoseItem.get());
+                //选队物品
+                //info.getPlayer().getInventory().setItem(TeamChoseItem.getIndex(), TeamChoseItem.get());
 
             }
             info.getPlayer().getInventory().setItem(RoomQuitItem.getIndex(),RoomQuitItem.get());
@@ -607,7 +608,7 @@ public class GameRoom {
                     }
                 }
             }
-            sendTitle("&c游戏开始");
+            //sendTitle("&c游戏开始");
 
             loadTime = getRoomConfig().time;
             worldInfo = new WorldInfo(this,getRoomConfig().worldInfo);
@@ -707,9 +708,12 @@ public class GameRoom {
             }
         }
         if(loadTime >= 1) {
-            sendTip("&e距离开始还剩 &a " + loadTime + " &e秒");
+            if(loadTime >5){
+                //sendActionBar("&aStarting game in &l&a" + loadTime);
+                sendActionBar("&a距离游戏开始还剩 &l&a" + loadTime);
+            }
             if(loadTime <= 5){
-                switch (loadTime){
+                /*switch (loadTime){
                     case 5: sendTitle("&a5");break;
                     case 4: sendTitle("&e4");break;
                     case 3: sendTitle("&63");break;
@@ -718,10 +722,17 @@ public class GameRoom {
                     default:
                         sendTitle("");break;
 
-                }
+                }*/
                 //音效
-                addSound(Sound.RANDOM_CLICK);
+                //addSound(Sound.RANDOM_CLICK);
+                if(loadTime <= 5){
+                    //音效
+                    //addSound(Sound.RANDOM_TOAST);
+                    //sendActionBar("&aStarting game in &l&c" + loadTime);
+                    sendActionBar("&a距离游戏开始还剩 &l&c" + loadTime);
+                    addSound(Sound.RANDOM_CLICK);
 
+                }
             }
             if(loadTime == 1){
                 type = GameType.START;
@@ -733,7 +744,7 @@ public class GameRoom {
 
             }
         }else{
-            sendTip("&a等待中");
+            sendActionBar("&a等待中");
         }
     }
 

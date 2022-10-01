@@ -38,6 +38,9 @@ public class TeamConfig {
     /**团队的颜色符号*/
     private final String nameColor;
 
+    /**团队的图标*/
+    private final String nameUnicode;
+
     /**
      * 团队的代表方块物品(不给玩家也行，这个可以用作GUI)
      * */
@@ -48,9 +51,10 @@ public class TeamConfig {
      * */
     private final BlockColor rgb;
 
-    private TeamConfig(String name, String nameColor, Item blockWoolColor, BlockColor rgb){
+    private TeamConfig(String name, String nameColor,String nameUnicode, Item blockWoolColor, BlockColor rgb){
         this.name = name;
         this.nameColor = nameColor;
+        this.nameUnicode = nameUnicode;
         this.blockWoolColor = blockWoolColor;
         this.rgb = rgb;
     }
@@ -95,17 +99,22 @@ public class TeamConfig {
         return nameColor;
     }
 
+    public String getNameUnicode() {
+        return nameUnicode;
+    }
+
     /**
      * 解析 team.yml 配置文件
      * */
     public static TeamConfig getInstance(Map<?,?> map){
         String name = map.get("name").toString();
         String nameColor = map.get("nameColor").toString();
+        String nameUnicode = map.get("nameUnicode").toString();
         Map<?,?> m = (Map<?,?>) map.get("rgb");
         int r = Integer.parseInt(m.get("r").toString());
         int g = Integer.parseInt(m.get("g").toString());
         int b = Integer.parseInt(m.get("b").toString());
-        TeamConfig teamConfig = new TeamConfig(name,nameColor, Item.fromString(map.get("blockWoolColor")
+        TeamConfig teamConfig = new TeamConfig(name,nameColor,nameUnicode,Item.fromString(map.get("blockWoolColor")
                 .toString()),new BlockColor(r,g,b));
         if(map.containsKey("canPvp")){
             teamConfig.setCanPvp(Boolean.parseBoolean(map.get("canPvp").toString()));

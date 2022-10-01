@@ -1,6 +1,7 @@
 team:
   - name: ""
     nameColor: "&c"
+    nameUnicode: ""
     blockWoolColor: "35:14"
     canPvp: true
     inventory:
