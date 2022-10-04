@@ -143,7 +143,7 @@ public class GameCommand extends Command {
     private void disPlayRoomsFrom(Player player, String name){
         DisPlayWindowsFrom.FROM.remove(player.getName());
         //GameFrom simple = new GameFrom(TotalManager.getTitle(), "请选择房间",DisPlayWindowsFrom.getId(51530,99810));
-        GameFrom simple = new GameFrom("§c饥饿§b游戏§r 的房间列表", "请选择房间点击进入：\n§e注意：由于房间人数及状态变动极快,部分房间可能已开始游戏,你将以观战者模式进入",DisPlayWindowsFrom.getId(51530,99810));
+        GameFrom simple = new GameFrom("§c空岛§b战争§r 的房间列表", "请选择房间点击进入：\n§e注意：由于房间人数及状态变动极快,部分房间可能已开始游戏,你将以观战者模式进入",DisPlayWindowsFrom.getId(51530,99810));
         WorldRoom worldRoom = TotalManager.getMenuRoomManager().getRoom(name);
         PlayerInfo info = new PlayerInfo(player);
         //simple.add(new BaseIButton(new ElementButton("随机匹配",new ElementButtonImageData("path","textures/ui/dressing_room_skins"))) {
